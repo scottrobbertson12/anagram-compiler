@@ -6,7 +6,7 @@ COMP_LIBS=$(shell [ -r config/libs ] && cat config/libs)
 SOURCES=$(wildcard src/**/*.c src/*.c)
 OBJECTS=$(patsubst src/%.c,obj/%.o,$(SOURCES))
 
-CFLAGS=-I$(INCLUDE_DIR)
+CFLAGS=-I$(INCLUDE_DIR) -std=c11
 DEBUG_CFLAGS=-Wall -Wextra -g -I$(INCLUDE_DIR) $(CFLAGS) -pedantic
 RELEASE_CFLAGS=-O3 $(CFLAGS)
 LDFLAGS=$(patsubst %,-l%,$(COMP_LIBS))
