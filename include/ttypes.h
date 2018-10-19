@@ -38,7 +38,7 @@ typedef enum {
 #define NEW_DARRAY_IMPL(Type,type)\
 	Darray##Type darray##Type##_new() {\
 		Darray##Type d = malloc(sizeof(darray##Type));\
-		d->vals = malloc(sizeof(type) * 9);\
+		d->vals = malloc(sizeof(void*) * 9);\
 		d->len = 8;\
 		d->count = 0;\
 	       	return d;\
@@ -47,15 +47,16 @@ typedef enum {
 		if(d==0) return;\
 		if(len < d->count){\
 			printf("resizing darray from %i to %i\n", d->len, len);\
-			FOR(i,len,d->count,Type##_delete(d->vals[i]);); d->vals = realloc(d->vals,len);\
+			FOR(i,len,d->count,Type##_delete(d->vals[i]);); d->vals = realloc(d->vals,len*sizeof(void*));\
 		} else {\
-			d->vals = realloc(d->vals, len);\
+			printf("resizing darray from %i to %i\n", d->len, len);\
+			d->vals = realloc(d->vals,len*sizeof(void*));\
 			d->len = len;\
 		}\
 	}\
 	void darray##Type##_insert(Darray##Type d, Type a) {\
 		if(d==0) return;\
-		if((d->count+1) < d->len ){ d->vals[(d->count)] = a; (d->count)++; }\
+		if((d->count+1) < d->len-1 ){ d->vals[(d->count)] = a; (d->count)++; }\
 		else {\
 		       	darray##Type##_resize(d,(d->len*2));\
 			d->vals[(d->count)]=a; (d->count)++;\

@@ -20,9 +20,7 @@ Token get_string(String code){
 	return Token_new(TOK_ERROR,string_substring(code,0,1));
 }
 
-Token n_character(int n, String code, TokenType type){
-	return Token_new(type,string_substring(code,0,n));
-}
+#define n_character(n,code,type) return Token_new(type,string_substring(code, 0, n));
 
 Token get_token(String code){
 	char c = string_char(code,0);
@@ -36,21 +34,21 @@ Token get_token(String code){
 		return get_string(code);		
 	} else {
 		switch(c){
-			case '+': return n_character(1, code, TOK_ADD);
+			case '+': n_character(1, code, TOK_ADD);
 				  break;
-			case '-': return n_character(1, code, TOK_SUB);
+			case '-': n_character(1, code, TOK_SUB);
 				  break;
-			case '*': return n_character(1, code, TOK_MUL);
+			case '*': n_character(1, code, TOK_MUL);
 				  break;
-			case '(': return n_character(1, code, TOK_LPAREN);
+			case '(': n_character(1, code, TOK_LPAREN);
 				  break;
-			case ')': return n_character(1, code, TOK_RPAREN);
+			case ')': n_character(1, code, TOK_RPAREN);
 				  break;
-			case '{': return n_character(1, code, TOK_LBRACKET);
+			case '{': n_character(1, code, TOK_LBRACKET);
 				  break;
-			case '}': return n_character(1, code, TOK_RBRACKET);
+			case '}': n_character(1, code, TOK_RBRACKET);
 				  break;				 
-			default: return Token_new(TOK_ERROR,string_substring(code, 0, 1));
+			default: Token_new(TOK_ERROR,string_substring(code, 0, 1));
 				 break;
 		}
 	}
