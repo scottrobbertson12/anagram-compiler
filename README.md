@@ -1,2 +1,2 @@
-# anagram-compiler [![CircleCI](https://circleci.com/gh/scottrobbertson12/anagram-compiler/tree/master.svg?style=svg)](https://circleci.com/gh/scottrobbertson12/anagram-compiler/tree/master)
+# anagram-compiler [![CircleCI](https://circleci.com/gh/scottrobbertson12/anagram-compiler/tree/master.svg?style=svg)](https://circleci.com/gh/scottrobbertson12/anagram-compiler/tree/master) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/2653852697bd4de3aef5b38ed44652c9)](https://www.codacy.com/app/thomasscottterry/anagram-compiler?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=scottrobbertson12/anagram-compiler&amp;utm_campaign=Badge_Grade)
 A compiler for the anagram language
