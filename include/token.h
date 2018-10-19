@@ -10,6 +10,11 @@ typedef enum {
 	TOK_NUMBER,
 	TOK_ADD,
 	TOK_SUB,
+	TOK_MUL,
+	TOK_LPAREN,
+	TOK_RPAREN,
+	TOK_RBRACKET,
+	TOK_LBRACKET,
 } TokenType;
 
 typedef struct {

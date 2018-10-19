@@ -46,6 +46,7 @@ typedef enum {
 	void darray##Type##_resize(Darray##Type d, int len){\
 		if(d==0) return;\
 		if(len < d->count){\
+			printf("resizing darray from %i to %i\n", d->len, len);\
 			FOR(i,len,d->count,Type##_delete(d->vals[i]);); d->vals = realloc(d->vals,len);\
 		} else {\
 			d->vals = realloc(d->vals, len);\

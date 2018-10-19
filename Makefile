@@ -7,7 +7,7 @@ SOURCES=$(wildcard src/**/*.c src/*.c)
 OBJECTS=$(patsubst src/%.c,obj/%.o,$(SOURCES))
 
 CFLAGS=-I$(INCLUDE_DIR) -std=c11
-DEBUG_CFLAGS=-Wall -Wextra -g -I$(INCLUDE_DIR) $(CFLAGS) -pedantic
+DEBUG_CFLAGS=-Wall -Wextra -g -I$(INCLUDE_DIR) $(CFLAGS) -pedantic -coverage
 RELEASE_CFLAGS=-O3 $(CFLAGS)
 LDFLAGS=$(patsubst %,-l%,$(COMP_LIBS))
 

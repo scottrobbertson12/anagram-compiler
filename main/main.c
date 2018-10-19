@@ -7,7 +7,7 @@
 #include<lex.h>
 
 int main(void){
-	String s = string_new("4+3-4");
+	String s = string_new("function test");
 	DARRAY(Token) tokens = get_tokens(s);
 	FOR(i,0,tokens->count,
 			String v = Token_print(DARRAY_GET(Token,tokens,i));

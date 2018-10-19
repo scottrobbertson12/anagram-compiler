@@ -20,6 +20,10 @@ Token get_string(String code){
 	return Token_new(TOK_ERROR,string_substring(code,0,1));
 }
 
+Token n_character(int n, String code, TokenType type){
+	return Token_new(type,string_substring(code,0,n));
+}
+
 Token get_token(String code){
 	char c = string_char(code,0);
 	if(c == '\0'){
@@ -32,10 +36,20 @@ Token get_token(String code){
 		return get_string(code);		
 	} else {
 		switch(c){
-			case '+': return Token_new(TOK_ADD, string_substring(code, 0, 1));
+			case '+': return n_character(1, code, TOK_ADD);
 				  break;
-			case '-': return Token_new(TOK_SUB, string_substring(code, 0, 1));
+			case '-': return n_character(1, code, TOK_SUB);
 				  break;
+			case '*': return n_character(1, code, TOK_MUL);
+				  break;
+			case '(': return n_character(1, code, TOK_LPAREN);
+				  break;
+			case ')': return n_character(1, code, TOK_RPAREN);
+				  break;
+			case '{': return n_character(1, code, TOK_LBRACKET);
+				  break;
+			case '}': return n_character(1, code, TOK_RBRACKET);
+				  break;				 
 			default: return Token_new(TOK_ERROR,string_substring(code, 0, 1));
 				 break;
 		}
