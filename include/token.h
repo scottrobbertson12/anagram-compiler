@@ -8,6 +8,8 @@ typedef enum {
 	TOK_ERROR,	
 	TOK_IDENTIFIER,
 	TOK_NUMBER,
+	TOK_ADD,
+	TOK_SUB,
 } TokenType;
 
 typedef struct {
@@ -16,7 +18,7 @@ typedef struct {
 
 } *Token, token;
 
-NEW_DARRAY_DEF(Token);
+NEW_DARRAY_DEF(Token)
 
 Token Token_new(TokenType type, String value);
 String Token_print(Token t);

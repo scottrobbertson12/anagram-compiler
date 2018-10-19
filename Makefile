@@ -6,14 +6,21 @@ COMP_LIBS=$(shell [ -r config/libs ] && cat config/libs)
 SOURCES=$(wildcard src/**/*.c src/*.c)
 OBJECTS=$(patsubst src/%.c,obj/%.o,$(SOURCES))
 
-CFLAGS=-Wall -g -I$(INCLUDE_DIR)
+CFLAGS=-I$(INCLUDE_DIR)
+DEBUG_CFLAGS=-Wall -Wextra -g -I$(INCLUDE_DIR) $(CFLAGS) -pedantic
+RELEASE_CFLAGS=-O3 $(CFLAGS)
 LDFLAGS=$(patsubst %,-l%,$(COMP_LIBS))
 
 all: $(PROGRAM_NAME) $(LIBRARY_NAME)
 
 $(PROGRAM_NAME): $(OBJECTS) main/main.c
-	@gcc $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	@gcc $(DEBUG_CFLAGS) -o $@ $^ $(LDFLAGS)
 	@echo LINK $@
+
+release-prog: $(OBJECTS) main/main.c
+	@gcc $(RELEASE_CFLAGS) -o $(PROGRAM_NAME) $^ $(LDFLAGS)
+	@echo RELEASE $(PROGRAM_NAME)
+
 
 $(LIBRARY_NAME): $(OBJECTS) main/lib.c
 	@gcc $(CFLAGS) -shared -fPIC -o lib$@.so $^
@@ -25,7 +32,7 @@ test: $(OBJECTS) main/test.c
 
 obj/%.o: src/%.c
 	@mkdir $(dirname $@) 2>/dev/null || true
-	@gcc $(CFLAGS) -fPIC -c -o $@ $^
+	@gcc $(CFLAGS) -g -fPIC -c -o $@ $^
 	@echo CC $^
 
 clean: 

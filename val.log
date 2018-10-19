@@ -1,0 +1,57 @@
+==12036== Memcheck, a memory error detector
+==12036== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==12036== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==12036== Command: ./anc
+==12036== 
+==12036== Invalid write of size 8
+==12036==    at 0x10904B: darrayToken_insert (in /home/vryelen/Programming/anagram/anc)
+==12036==    by 0x108E2F: get_tokens (in /home/vryelen/Programming/anagram/anc)
+==12036==    by 0x1092A1: main (main.c:11)
+==12036==  Address 0x55cb398 is 0 bytes after a block of size 8 alloc'd
+==12036==    at 0x4C2FA3F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12036==    by 0x4C31D84: realloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12036==    by 0x108FDB: darrayToken_resize (in /home/vryelen/Programming/anagram/anc)
+==12036==    by 0x109077: darrayToken_insert (in /home/vryelen/Programming/anagram/anc)
+==12036==    by 0x108E2F: get_tokens (in /home/vryelen/Programming/anagram/anc)
+==12036==    by 0x1092A1: main (main.c:11)
+==12036== 
+==12036== Invalid write of size 1
+==12036==    at 0x10920D: Token_print (in /home/vryelen/Programming/anagram/anc)
+==12036==    by 0x1092C7: main (main.c:12)
+==12036==  Address 0x55cbb66 is 0 bytes after a block of size 22 alloc'd
+==12036==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12036==    by 0x1091C8: Token_print (in /home/vryelen/Programming/anagram/anc)
+==12036==    by 0x1092C7: main (main.c:12)
+==12036== 
+==12036== Invalid read of size 8
+==12036==    at 0x1090E8: darrayToken_get (in /home/vryelen/Programming/anagram/anc)
+==12036==    by 0x1092BF: main (main.c:12)
+==12036==  Address 0x55cb398 is 0 bytes after a block of size 8 alloc'd
+==12036==    at 0x4C2FA3F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12036==    by 0x4C31D84: realloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12036==    by 0x108FDB: darrayToken_resize (in /home/vryelen/Programming/anagram/anc)
+==12036==    by 0x109077: darrayToken_insert (in /home/vryelen/Programming/anagram/anc)
+==12036==    by 0x108E2F: get_tokens (in /home/vryelen/Programming/anagram/anc)
+==12036==    by 0x1092A1: main (main.c:11)
+==12036== 
+==12036== Invalid read of size 8
+==12036==    at 0x108F82: darrayToken_resize (in /home/vryelen/Programming/anagram/anc)
+==12036==    by 0x109109: darrayToken_delete (in /home/vryelen/Programming/anagram/anc)
+==12036==    by 0x109307: main (main.c:18)
+==12036==  Address 0x55cb398 is 0 bytes after a block of size 8 alloc'd
+==12036==    at 0x4C2FA3F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12036==    by 0x4C31D84: realloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12036==    by 0x108FDB: darrayToken_resize (in /home/vryelen/Programming/anagram/anc)
+==12036==    by 0x109077: darrayToken_insert (in /home/vryelen/Programming/anagram/anc)
+==12036==    by 0x108E2F: get_tokens (in /home/vryelen/Programming/anagram/anc)
+==12036==    by 0x1092A1: main (main.c:11)
+==12036== 
+==12036== 
+==12036== HEAP SUMMARY:
+==12036==     in use at exit: 0 bytes in 0 blocks
+==12036==   total heap usage: 44 allocs, 44 frees, 1,682 bytes allocated
+==12036== 
+==12036== All heap blocks were freed -- no leaks are possible
+==12036== 
+==12036== For counts of detected and suppressed errors, rerun with: -v
+==12036== ERROR SUMMARY: 9 errors from 4 contexts (suppressed: 0 from 0)

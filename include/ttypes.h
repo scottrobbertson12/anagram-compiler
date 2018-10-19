@@ -15,6 +15,11 @@ typedef enum {
 
 #include<stdlib.h>
 
+///! Darray##Type##Definitions
+// This structure holds a generic darray
+// The length is the actualy number of items
+// that can fit in the array
+// the count is the number of items actually in the array
 #define NEW_DARRAY_DEF(Type)\
        	typedef struct {\
 	       	int len;\
@@ -30,21 +35,18 @@ typedef enum {
 
 
 
-#define NEW_DARRAY_IMPL(Type)\
+#define NEW_DARRAY_IMPL(Type,type)\
 	Darray##Type darray##Type##_new() {\
 		Darray##Type d = malloc(sizeof(darray##Type));\
-		d->len = 0;\
-	       	d->vals = 0;\
+		d->vals = malloc(sizeof(type) * 9);\
+		d->len = 8;\
 		d->count = 0;\
 	       	return d;\
        	}\
 	void darray##Type##_resize(Darray##Type d, int len){\
 		if(d==0) return;\
-		if(len == 0){\
-		       	FOR(i,0,d->count+1,Type##_delete(d->vals[i]);); d->vals = realloc(d->vals,0);\
-			d->len=0; d->count=0;}\
-		else if(len < d->count){\
-			FOR(i,len,d->count+1,Type##_delete(d->vals[i]););\
+		if(len < d->count){\
+			FOR(i,len,d->count,Type##_delete(d->vals[i]);); d->vals = realloc(d->vals,len);\
 		} else {\
 			d->vals = realloc(d->vals, len);\
 			d->len = len;\
@@ -52,10 +54,10 @@ typedef enum {
 	}\
 	void darray##Type##_insert(Darray##Type d, Type a) {\
 		if(d==0) return;\
-		if((d->count+1) < d->len ){ d->vals[(d->count)++] = a; }\
+		if((d->count+1) < d->len ){ d->vals[(d->count)] = a; (d->count)++; }\
 		else {\
-		       	darray##Type##_resize(d,(d->len>0)?(d->len*2):8);\
-			d->vals[(d->count)++]=a;\
+		       	darray##Type##_resize(d,(d->len*2));\
+			d->vals[(d->count)]=a; (d->count)++;\
 	       	}\
 	}\
 	Type darray##Type##_get(Darray##Type d, int i) {\

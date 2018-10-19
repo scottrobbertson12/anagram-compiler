@@ -16,6 +16,10 @@ typedef bool (*checker)(char);
 	while((c=string_char(code, i)) && checker(c)) i++;\
 	return Token_new(type, string_substring(code,0,i));
 
+Token get_string(String code){
+	return Token_new(TOK_ERROR,string_substring(code,0,1));
+}
+
 Token get_token(String code){
 	char c = string_char(code,0);
 	if(c == '\0'){
@@ -24,21 +28,37 @@ Token get_token(String code){
 		get_specific_tok(code, isAlNum, TOK_IDENTIFIER);
 	} else if( isNum(c)){
 		get_specific_tok(code, isAlNum, TOK_NUMBER);
+	} else if(c == '"'){
+		return get_string(code);		
 	} else {
-		return Token_new(TOK_ERROR,string_substring(code, 0, 1));
+		switch(c){
+			case '+': return Token_new(TOK_ADD, string_substring(code, 0, 1));
+				  break;
+			case '-': return Token_new(TOK_SUB, string_substring(code, 0, 1));
+				  break;
+			default: return Token_new(TOK_ERROR,string_substring(code, 0, 1));
+				 break;
+		}
 	}
 	return 0;
 }
 
 DARRAY(Token) get_tokens(String code){
 	DARRAY(Token) t = DARRAY_NEW(Token);
-	DARRAY_ADD(Token, t, get_token(code));
-	DARRAY_ADD(Token, t, get_token(code));
-	String s1 = Token_print(DARRAY_GET(Token, t, 0));
-	String s2 = Token_print(DARRAY_GET(Token, t, 1));
-	printf("%s %s\n", c_string(s1), c_string(s2));
-	string_delete(s1);
-	string_delete(s2);
 
+	code = string_substring(code, 0, string_length(code));
+	while(string_length(code) != 0){
+		Token tok = get_token(code);
+		DARRAY_ADD(Token, t, tok);
+		String c2 = string_substring(code, string_length(tok->value), string_length(code)-string_length(tok->value));
+		string_delete(code);
+		code = c2;
+		while(string_length(code) != 0 && string_char(code,0) == ' '){
+			String c = string_substring(code,1,string_length(code)-1);
+			string_delete(code);
+			code = c;
+		}
+	}
+	string_delete(code);
 	return t;
 }

@@ -9,7 +9,7 @@ String string_new(const char* value){
 	String s = malloc(sizeof(string));
 
 	s->len = strlen(value);
-	s->value = malloc(s->len+1);
+	s->value = malloc((s->len+1));
 	strcpy(s->value,value);
 	s->value[s->len] = '\0';
 
@@ -66,15 +66,14 @@ char string_char(String s, int i){
 	return 0;
 }
 
-#include<stdio.h>
 String string_substring(String s, int start, int nchars){
-	if(nchars> 0 && string_length(s) >= start+nchars){
+	if(string_length(s) >= start+nchars){
 		char* val = malloc(sizeof(char) * (nchars+1));	
 		strncpy(val,c_string(s)+start,nchars);
 		val[nchars]= '\0';
 		String sub = string_new(val);
 		free(val);
 		return sub;
-	} 
+	}
 	return 0;
 }
