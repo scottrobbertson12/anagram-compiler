@@ -11,7 +11,10 @@ DEBUG_CFLAGS=-Wall -Wextra -g -I$(INCLUDE_DIR) $(CFLAGS) -pedantic
 RELEASE_CFLAGS=-O3 $(CFLAGS)
 LDFLAGS=$(patsubst %,-l%,$(COMP_LIBS))
 
-all: $(PROGRAM_NAME) $(LIBRARY_NAME)
+all: obj $(PROGRAM_NAME) $(LIBRARY_NAME)
+
+obj:
+	mkdir obj
 
 $(PROGRAM_NAME): $(OBJECTS) main/main.c
 	@gcc $(DEBUG_CFLAGS) -o $@ $^ $(LDFLAGS)
@@ -31,7 +34,7 @@ test: $(OBJECTS) main/test.c
 	@echo LINK $@
 
 obj/%.o: src/%.c
-	@mkdir $(dirname $@) 2>/dev/null || true
+	@mkdir $(dirname $@) -pv 2>/dev/null || true
 	@gcc $(CFLAGS) -g -fPIC -c -o $@ $^
 	@echo CC $^
 
