@@ -12,7 +12,7 @@
         -:    7:#include<lex.h>
         -:    8:
     #####:    9:int main(void){
-    #####:   10:	String s = string_new("function test( int a ) { return 0 }");
+    #####:   10:	String s = string_new("function test");
     #####:   11:	DARRAY(Token) tokens = get_tokens(s);
     #####:   12:	FOR(i,0,tokens->count,
         -:   13:			String v = Token_print(DARRAY_GET(Token,tokens,i));
