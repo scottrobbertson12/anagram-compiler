@@ -1,0 +1,13 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: gcc:4.9
+    steps:
+      - checkout
+      - run:
+          name: compile
+          command: make
+      - run:
+          name: run
+          command: ./anc
