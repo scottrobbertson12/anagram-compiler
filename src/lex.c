@@ -9,64 +9,79 @@ typedef bool (*checker)(char);
 #define isAlpha(c) ((c >= 'a' && c <='z') || (c >= 'A' && c <= 'Z') || (c == '_'))
 #define isAlNum(c) (isAlpha(c) || (c >= '0' && c <= '9'))
 #define isNum(c) ((c >= '0') && (c <= '9'))
+#define isWhiteSpace(c) (c==' ' || c=='\n' || c=='\t' || c=='\v')
 
 #define get_specific_tok(code,checker,type)\
 	int i = 0;\
 	char c;\
 	while((c=string_char(code, i)) && checker(c)) i++;\
-	return Token_new(type, string_substring(code,0,i));
+	return token_new(type, string_substring(code,0,i), line, col);
 
-Token get_string(String code){
-	return Token_new(TOK_ERROR,string_substring(code,0,1));
+token get_string(string code, int line, int col){
+	return token_new(TOK_ERROR,string_substring(code,0,1), line, col);
 }
 
-#define n_character(n,code,type) return Token_new(type,string_substring(code, 0, n));
+#define n_character(n,code,type) return token_new(type,string_substring(code, 0, n), line, col);
 
-Token get_token(String code){
+token get_token(string code, int line, int col){
 	char c = string_char(code,0);
 	if(c == '\0'){
-		return Token_new(TOK_EOF,string_substring(code,0,1));
+		return token_new(TOK_EOF,string_substring(code,0,1), line, col);
 	} else if( isAlpha(c) ) {
 		get_specific_tok(code, isAlNum, TOK_IDENTIFIER);
 	} else if( isNum(c)){
 		get_specific_tok(code, isAlNum, TOK_NUMBER);
 	} else if(c == '"'){
-		return get_string(code);		
+		return get_string(code, line, col);		
 	} else {
 		switch(c){
 			case '+': n_character(1, code, TOK_ADD);
-				  break;
 			case '-': n_character(1, code, TOK_SUB);
-				  break;
 			case '*': n_character(1, code, TOK_MUL);
-				  break;
 			case '(': n_character(1, code, TOK_LPAREN);
-				  break;
 			case ')': n_character(1, code, TOK_RPAREN);
-				  break;
 			case '{': n_character(1, code, TOK_LBRACKET);
-				  break;
 			case '}': n_character(1, code, TOK_RBRACKET);
-				  break;				 
-			default: Token_new(TOK_ERROR,string_substring(code, 0, 1));
-				 break;
+			case ';': n_character(1, code, TOK_SEMICOLON);
+			case '[': n_character(1, code, TOK_LBRACE);
+			case ']': n_character(1, code, TOK_RBRACE);
+			case '#': n_character(1, code, TOK_HASH);
+			default: n_character(1, code, TOK_ERROR);
 		}
 	}
 	return 0;
 }
 
-DARRAY(Token) get_tokens(String code){
-	DARRAY(Token) t = DARRAY_NEW(Token);
+token keyword_check(token tok){
+	for(int i = 0; i < KW_END; i++){
+		if(string_equal(tok->value, keywords[i]))
+			tok->type = i;
+	}
+	return tok;
+}
+
+DARRAY(token) get_tokens(string code){
+	int line=0, col=0;
+	DARRAY(token) t = DARRAY_NEW(token);
 
 	code = string_substring(code, 0, string_length(code));
 	while(string_length(code) != 0){
-		Token tok = get_token(code);
-		DARRAY_ADD(Token, t, tok);
-		String c2 = string_substring(code, string_length(tok->value), string_length(code)-string_length(tok->value));
+		token tok = get_token(code, line, col);
+		tok = keyword_check(tok);
+
+		DARRAY_ADD(token, t, tok);
+
+		string c2 = string_substring(code, string_length(tok->value), string_length(code)-string_length(tok->value));
+		col += string_length(tok->value);
 		string_delete(code);
 		code = c2;
-		while(string_length(code) != 0 && string_char(code,0) == ' '){
-			String c = string_substring(code,1,string_length(code)-1);
+
+		while(string_length(code) != 0 && isWhiteSpace(string_char(code,0))){
+			if(string_char(code,0) == '\n'){
+				line++; 
+				col=0;
+			}
+			string c = string_substring(code,1,string_length(code)-1);
 			string_delete(code);
 			code = c;
 		}

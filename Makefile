@@ -11,7 +11,7 @@ DEBUG_CFLAGS=-Wall -Wextra -g -I$(INCLUDE_DIR) $(CFLAGS) -pedantic
 RELEASE_CFLAGS=-O3 $(CFLAGS)
 LDFLAGS=$(patsubst %,-l%,$(COMP_LIBS))
 
-all: obj $(PROGRAM_NAME) $(LIBRARY_NAME)
+all: clean obj $(PROGRAM_NAME) $(LIBRARY_NAME)
 
 obj:
 	mkdir obj

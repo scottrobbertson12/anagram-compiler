@@ -4,13 +4,13 @@
 typedef struct {
 	char* value;
 	int len;
-} *String, string;
+} *string, String;
 
-String string_new(const char* value);
-bool string_equal(String a, String b);
-int string_compare(String a, String b);
-String string_delete(String s);
-char* c_string(String s);
-int string_length(String s);
-char string_char(String s, int i);
-String string_substring(String s, int start, int end);
+string string_new(const char* value);
+bool string_equal(string a, string b);
+int string_compare(string a, string b);
+string string_delete(string s);
+char* c_string(string s);
+int string_length(string s);
+char string_char(string s, int i);
+string string_substring(string s, int start, int end);
