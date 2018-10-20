@@ -12,10 +12,19 @@ void keywords_init(){
 	keywords[KW_PROGRAM] = string_new("program");
 	keywords[KW_LIBRARY] = string_new("library");
 	keywords[KW_FUNCTION] = string_new("function");
+	keywords[KW_CLASS] = string_new("class");
+	keywords[KW_INTERFACE] = string_new("interface");
+
 	keywords[KW_RETURN] = string_new("return");
 	keywords[KW_ENTRY] = string_new("entry");
+
+	keywords[KW_AND] = string_new("and");
+	keywords[KW_OR] = string_new("or");
+	keywords[KW_XOR] = string_new("xor");
+	keywords[KW_EQUALS] = string_new("equals");
 }
 
+// Delete the keywords array to free memory
 void keywords_delete(){
 	for(int i = 0; i < KW_END; i++){
 		string_delete(keywords[i]);
@@ -25,8 +34,14 @@ void keywords_delete(){
 }
 
 token token_new(tokenType type, string s, int line, int col){
+	// If they keywords list has not been created
+	// We need to create it now
+	// in case this is a keyword
 	if(!keywords)
 		keywords_init();
+
+	// Create and initialize 
+	// ourself
 	token t = malloc(sizeof(Token));
 	t->value = s;
 	t->type = type;
@@ -35,6 +50,8 @@ token token_new(tokenType type, string s, int line, int col){
 	return t;
 }
 
+// Find the length of the
+// integer in characters
 int int_length(int i){
 	int length = 0;
 	while(i != 0){
@@ -44,6 +61,8 @@ int int_length(int i){
 	return length;
 }
 
+// print a token to a string
+// for debugging purposes
 #define PAD_LENGTH 11
 string token_print(token t){
 	if(t == 0){

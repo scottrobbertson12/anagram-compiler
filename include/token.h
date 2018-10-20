@@ -7,10 +7,19 @@ void keywords_delete();
 
 typedef enum {
 	KW_PROGRAM=0,
-	KW_ENTRY,
 	KW_LIBRARY,
 	KW_FUNCTION,
+	KW_CLASS,
+	KW_INTERFACE,
+
 	KW_RETURN,
+	KW_ENTRY,
+
+	KW_AND,
+	KW_OR,
+	KW_XOR,
+	KW_EQUALS,
+
 	KW_END,
 
 	TOK_EOF,

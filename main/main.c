@@ -14,8 +14,10 @@ int main(int argc, char* argv[]){
 		char* code = malloc(sizeof(char) * chars + 1);
 	       	if((fread(code,sizeof(char),chars,codefile) == 0)){
 			printf("Error reading file %s\n", argv[1]);
+			fclose(codefile);
 			exit(1);
 		}
+		fclose(codefile);
 
 		string s = string_new(code);
 		DARRAY(token) tokens = get_tokens(s);

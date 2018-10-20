@@ -1,6 +1,6 @@
 #[entry(main)]
 program hello_world {
 	function main {
-
+		return 2;
 	}
 }
